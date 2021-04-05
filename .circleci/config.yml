@@ -82,3 +82,11 @@ workflows:
       - fourth:
           requires:
             - hold
+  noon-build:
+    triggers:
+      - schedule:
+          cron: "07 11 * * *"
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
