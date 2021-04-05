@@ -29,7 +29,8 @@ jobs:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: my_workspace
-
+      - run: |
+          echo $DB_HOSTNAME
       - run: |
           if [[ $(cat my_workspace/echo-output) == "Trying out workspaces" ]]; then
             echo "It worked!";
@@ -62,36 +63,36 @@ workflows:
       - two:
           requires:
             - one
-      - three:
-          requires:
-            - two
-  fan-in-out:
-    jobs:
-      - one
-      - two:
-          requires:
-            - one
-      - three:
-          requires:
-            - one
-      - hold:
-          type: approval
-          requires:
-            - two
-            - three
-      - fourth:
-          requires:
-            - hold
-  noon-build:
-    triggers:
-      - schedule:
-          cron: "10 03 * * *"
-          filters:
-            branches:
-              only:
-                - circleci-project-setup
-    jobs:
-      - one
-      - two
-      - three
-      - fourth
+#       - three:
+#           requires:
+#             - two
+#   fan-in-out:
+#     jobs:
+#       - one
+#       - two:
+#           requires:
+#             - one
+#       - three:
+#           requires:
+#             - one
+#       - hold:
+#           type: approval
+#           requires:
+#             - two
+#             - three
+#       - fourth:
+#           requires:
+#             - hold
+#   noon-build:
+#     triggers:
+#       - schedule:
+#           cron: "10 03 * * *"
+#           filters:
+#             branches:
+#               only:
+#                 - circleci-project-setup
+#     jobs:
+#       - one
+#       - two
+#       - three
+#       - fourth
