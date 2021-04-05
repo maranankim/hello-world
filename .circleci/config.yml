@@ -74,7 +74,11 @@ workflows:
       - three:
           requires:
             - one
-      - fourth:
+      - hold:
+          type: approval
           requires:
             - two
             - three
+      - fourth:
+          requires:
+            - hold
