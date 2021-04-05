@@ -44,7 +44,16 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
-      - run: echo "the third ste["  
+      - run: echo "the third step" 
+  fourth:
+    docker:
+      - image: circleci/ruby:2.4.1
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - run: echo "the fourth step" 
 workflows:
   version: 2
   sequential:
@@ -56,3 +65,16 @@ workflows:
       - three:
           requires:
             - two
+  fan-in-out:
+    jobs:
+      - one
+      - two:
+          requires:
+            - one
+      - three:
+          requires:
+            - one
+      - fourth:
+          requires:
+            - two
+            - three
