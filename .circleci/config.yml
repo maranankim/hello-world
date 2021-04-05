@@ -90,3 +90,8 @@ workflows:
             branches:
               only:
                 - circleci-project-setup
+    jobs:
+      - one
+      - two
+      - three
+      - fourth
